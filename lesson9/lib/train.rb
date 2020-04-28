@@ -15,6 +15,9 @@ class Train
 
   NUMBER_FORMAT = /^[\w\d]{3}-?[\w\d]{2}$/i.freeze
 
+  validate :number, :presence
+  validate :number, :format, NUMBER_FORMAT
+
   @trains = {}
 
   def self.find(number)
@@ -27,7 +30,7 @@ class Train
     validate!
     @speed           = 0
     @vagon           = []
-    @@trains[number] = self
+    @trains[number] = self
   end
 
   def stop
@@ -76,18 +79,5 @@ class Train
 
   def stop!
     self.speed = 0
-  end
-
-  def validate!
-    validate_number_empty!
-    validate_train_number!
-  end
-
-  def validate_number_empty!
-    raise ArgumentError, "Number can't be empty" if @number.empty?
-  end
-
-  def validate_train_number!
-    raise ArgumentError, "Number '#{@number}' has no valid format" if @number !~ NUMBER_FORMAT
   end
 end
