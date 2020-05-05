@@ -12,5 +12,6 @@ class Interface
     puts ''
     puts '1 - Add'
     puts '2 - Show'
+    puts '3 - Skip'
   end
 end
