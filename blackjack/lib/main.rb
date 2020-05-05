@@ -14,16 +14,9 @@ class Main
   end
 
   def newgame
+    # set_computer
+    set_user
     clear_terminal
-    # определить компьютер
-    @dealer = Computer.new()
-    # определить пользователя человека
-    puts 'Enter your name'
-    name = gets.chomp
-    clear_terminal
-    @player = Human.new(name)
-    @players.push(@dealer)
-    @players.push(@player)
     start
   end
 
@@ -31,7 +24,7 @@ class Main
     @deck.shuffle
     deals_card
     show_hand(@player)
-
+    make_bet()
     loop do
       @interface.menu
       case gets.to_i
@@ -39,16 +32,27 @@ class Main
         clear_terminal
         player_take_card(@player, 1)
         show_hand(@player)
+        make_move_comp
       when 2
         clear_terminal
         open_card
       when 3
-        puts 'By'
-        break
+        make_move_comp
       end
     end
   end
 
+  def set_computer
+    @dealer = Computer.new("Comp")
+    @players.push(@dealer)
+  end
+
+  def set_user
+    puts "Enter your name"
+    name = gets.chomp
+    @player = Human.new(name)
+    @players.push(@player)
+  end
   # раздать карты
   def deals_card
     @players.each { |player| player_take_card(player, 2) }
@@ -68,13 +72,6 @@ class Main
     @players.each { |player| puts player.score }
   end
 
-  # посчитать очки
-  def count_score
-    # @players.each do |player|
-    #   player.
-    #end
-  end
-
   # показать руку игрока
   def show_hand(player)
     puts "#{player.name} your card"
@@ -82,12 +79,15 @@ class Main
   end
 
   #сделать ставку
-  def make_bet(player)
-    player.coin -= 100
+  def make_bet()
+    @players.each { |player| player.score - 10 }
+  end
+
+  def make_move_comp
+    player_take_card(@players[0],1) if @players[0].score > 17
   end
 
   def clear_terminal
     system('cls')
   end
 end
-
