@@ -1,22 +1,18 @@
+require_relative 'card'
+
 class Deck
-  attr_reader :deck
+  attr_reader :cards
 
   def initialize
-    @deck = create_deck
+    @cards = []
+    Card::VALUES.each do |value|
+      Card::SUITS.each do |suit|
+        @cards << Card.new(value, suit)
+      end
+    end
   end
 
   def shuffle
-    @deck = @deck.shuffle
-  end
-
-  def create_deck
-    { "2♣" => 2, "3♣" => 3, "4♣" => 4, "5♣" => 5, "6♣" => 6, "7♣" => 7, "8♣" => 8, "9♣" => 9, "10♣" => 10,
-      "V♣" => 10, "D♣" => 10, "K♣" => 10, "T♣" => 1,
-      "2♥" => 2, "3♥" => 3, "4♥" => 4, "5♥" => 5, "6♥" => 6, "7♥" => 7, "8♥" => 8, "9♥" => 9, "10♥" => 10,
-      "V♥" => 10, "D♥" => 10, "K♥" => 10, "T♥" => 1,
-      "2♠" => 2, "3♠" => 3, "4♠" => 4, "5♠" => 5, "6♠" => 6, "7♠" => 7, "8♠" => 8, "9♠" => 9, "10♠" => 10,
-      "V♠" => 10, "D♠" => 10, "K♠" => 10, "T♠" => 1,
-      "2♦" => 2, "3♦" => 3, "4♦" => 4, "5♦" => 5, "6♦" => 6, "7♦" => 7, "8♦" => 8, "9♦" => 9, "10♦" => 10,
-      "V♦" => 10, "D♦" => 10, "K♦" => 10, "T♦" => 1 }.to_a
+    @cards = @cards.shuffle
   end
 end
