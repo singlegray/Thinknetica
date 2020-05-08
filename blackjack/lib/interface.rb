@@ -14,4 +14,19 @@ class Interface
     puts '2 - Show'
     puts '3 - Skip'
   end
+
+  def clear_terminal
+    system('cls')
+  end
+
+  def show_hand(player)
+    puts "#{player.name} your card"
+    player.hand.each { |i| print "#{i} " }
+  end
+
+  def get_name
+    puts "Enter your name"
+    name = gets.chomp
+    return name
+  end
 end
