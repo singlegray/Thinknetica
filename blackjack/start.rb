@@ -1,5 +1,5 @@
 require_relative 'lib/main'
+require_relative 'lib/interface'
 
-newgame = Main.new
-newgame.newgame
-# p newgame.players
+game = Interface.new
+game.start
