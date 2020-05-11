@@ -15,7 +15,20 @@ class Player
     count.times do
       card = deck.cards.pop
       @hand.push(card)
-      @score += card.score
+      total_score(card)
     end
+  end
+
+  def total_score(card)
+    score = card.score
+    score = 1 if ace?
+    @score += score
+  end
+
+  def ace?
+    @hand.each do |x|
+      return true if x.value == 'A'
+    end
+    return  false
   end
 end
