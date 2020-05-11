@@ -44,16 +44,19 @@ class Main
   end
 
   def winner
-    return "Nobody winner" if @player.score > 21 && @dealer.score > 21
     if (@player.score >= @dealer.score && @player.score <= 21) || @dealer.score > 21
-      @player.coin += 10
-      @dealer.coin -= 10
-      return @player.name
+      change_coin(@player, @dealer)
+      return @player
     elsif (@player.score < @dealer.score && @dealer.score <= 21) || @player.score > 21
-      @dealer.coin += 10
-      @player.coin -= 10
-      return 'Dealer'
+      change_coin(@dealer, @player)
+      return @dealer
     end
+    return nill
+  end
+
+  def change_coin(win, lose)
+    win.coin += 10
+    lose.coin -= 10
   end
 
   def discharge
