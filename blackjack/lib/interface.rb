@@ -17,6 +17,7 @@ class Interface
     puts ''
     puts '1 - Add'
     puts '2 - Skip'
+    puts '3 - Show'
   end
 
   def return_menu
@@ -83,6 +84,9 @@ class Interface
       when 2
         clear_terminal
         @game.make_move_comp
+        show_hand(@game.player)
+        show_stars
+      when
         finish_party
       end
     end
@@ -93,7 +97,7 @@ class Interface
     show_hand(@game.player)
     show_hand(@game.dealer)
     puts ''
-    puts "Winner is #{@game.winner}"
+    puts "Winner is #{@game.winner.name ||= 'noboby' }"
     puts ''
     puts "#{@game.player.name} your coin - #{@game.player.coin} Dealers coin - #{@game.dealer.coin}"
     puts "Press any key ..."
