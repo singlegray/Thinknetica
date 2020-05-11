@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-class Main
-  require_relative 'deck'
-  require_relative 'player'
-  require_relative 'interface'
-  require_relative 'computer'
-  require_relative 'human'
-  require_relative 'card'
+require_relative 'deck'
+require_relative 'player'
+require_relative 'interface'
+require_relative 'computer'
+require_relative 'human'
+require_relative 'card'
 
+class Main
   attr_accessor :deck, :players, :player, :dealer
 
   def initialize
@@ -26,29 +26,40 @@ class Main
   end
 
   def deals_card
-    @players.each { |player| player_take_card(player, 2) }
+    @players.each { |player| player.player_take_card(@deck, 2) }
   end
 
-  # игрок берет карту на руку
-  def player_take_card(player, count = 1)
-    count.times do
-      card = @deck.cards.pop
-      player.hand.push(card)
-      player.score += card.score
-    end
-  end
-
-  # вскрытие карт подсчет очков
-  def open_card
-    @players.each { |player| puts player.score }
-  end
-
-  # сделать ставку
-  def make_bet()
-    @players.each { |player| player.score - 10 }
+  def make_bet
+    @players.each { |player| player.coin - 10 }
   end
 
   def make_move_comp
-    player_take_card(@players[0], 1) if @players[0].score > 17
+    @dealer.player_take_card(@deck, 1) if @dealer.score <= 17
+  end
+
+  def getting_str_hand(player)
+    str = ''
+    player.hand.each { |i| str += " #{i.disp}" }
+    str += " score #{player.score}"
+  end
+
+  def winner
+    return "Nobody winner" if @player.score > 21 && @dealer.score > 21
+    if (@player.score >= @dealer.score && @player.score <= 21) || @dealer.score > 21
+      @player.coin += 10
+      @dealer.coin -= 10
+      return @player.name
+    elsif (@player.score < @dealer.score && @dealer.score <= 21) || @player.score > 21
+      @dealer.coin += 10
+      @player.coin -= 10
+      return 'Dealer'
+    end
+  end
+
+  def discharge
+    @dealer.score = 0
+    @dealer.hand = []
+    @player.score = 0
+    @player.hand = []
   end
 end
